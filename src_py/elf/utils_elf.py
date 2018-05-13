@@ -34,7 +34,7 @@ class Allocator(object):
         type_name = p.field().type_name()
         sz = p.field().sz().vec()
 
-        print(name, type_name, sz)
+        # print(name, type_name, sz)
 
         if not use_numpy:
             v = Allocator.torch_types[type_name](*sz)
@@ -63,7 +63,7 @@ class Allocator(object):
         idx2name = dict()
 
         for name, v in spec.items():
-            print("%s: %s" % (name, v))
+            # print("%s: %s" % (name, v))
             # TODO this might not good since it changes the input.
             if "input" not in v or v["input"] is None:
                 v["input"] = []
@@ -74,7 +74,7 @@ class Allocator(object):
             this_batchsize = v.get("batchsize", batchsize)
 
             keys = list(set(v["input"] + v["reply"]))
-            print("SharedMem: \"%s\", keys: %s" % (name, str(keys)))
+            # print("SharedMem: \"%s\", keys: %s" % (name, str(keys)))
 
             smem_opts = ctx.createSharedMemOptions(name, this_batchsize)
             smem_opts.setTimeout(v.get("timeout_usec", 0))
@@ -350,8 +350,8 @@ class GCWrapper:
         '''
         if key not in self.name2idx:
             raise ValueError("Callback[%s] is not in the specification" % key)
-        if cb is None:
-            print("Warning: Callback[%s] is registered to None" % key)
+        # if cb is None:
+        #     print("Warning: Callback[%s] is registered to None" % key)
 
         for idx in self.name2idx[key]:
             # print("Register " + str(cb) + " at idx: %d" % idx)
