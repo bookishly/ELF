@@ -24,7 +24,7 @@ _logger_factory = logging.IndexedLoggerFactory(
 def load_module(mod):
     """Load a python module."""
     module = importlib.import_module(mod)
-    print(module, mod)
+    # print(module, mod)
     return module
 
 
@@ -136,24 +136,24 @@ class ModelLoader(object):
         """
         if self.options.load_model_sleep_interval > 1e-7:
             interval = random.random() * self.options.load_model_sleep_interval
-            self.logger.info(f'Sleeping for {interval} seconds')
+            # self.logger.info(f'Sleeping for {interval} seconds')
             time.sleep(interval + 1e-7)
 
         # Initialize models.
         model = self.model_class(self.option_map_for_model, params)
 
         if self.options.load:
-            self.logger.info(f'Loading model from {self.options.load}')
-            if self.options.omit_keys:
-                self.logger.info(f'Omitting keys {self.options.omit_keys}')
+            # self.logger.info(f'Loading model from {self.options.load}')
+            # if self.options.omit_keys:
+                # self.logger.info(f'Omitting keys {self.options.omit_keys}')
 
             if self.options.replace_prefix:
                 replace_prefix = [
                     item.split(",")
                     for item in self.options.replace_prefix
                 ]
-                self.logger.info(
-                    f'replace_prefix for state dict: {replace_prefix}')
+                # self.logger.info(
+                #     f'replace_prefix for state dict: {replace_prefix}')
             else:
                 replace_prefix = []
 
@@ -163,16 +163,16 @@ class ModelLoader(object):
                 replace_prefix=replace_prefix,
                 check_loaded_options=self.options.check_loaded_options)
 
-            self.logger.info(
-                f'Finished loading model from {self.options.load}')
+            # self.logger.info(
+            #     f'Finished loading model from {self.options.load}')
 
         if self.options.onload:
             for func in self.options.onload:
                 try:
                     getattr(model, func)()
-                    self.logger.info('Called function {func!s} for model')
+                    # self.logger.info('Called function {func!s} for model')
                 except BaseException:
-                    self.logger.info('Calling function {func!s} failed!')
+                    # self.logger.info('Calling function {func!s} failed!')
                     raise
         if self.options.use_fp16:
             old_step = model.step
@@ -220,7 +220,7 @@ def load_env(
             ``model_loaders``: loaders for model
     """
     logger = _load_env_logger
-    logger.info('Loading env')
+    # logger.info('Loading env')
 
     game_loader_class = load_module(envs["game"]).Loader
     model_file = load_module(envs["model_file"])
@@ -259,7 +259,7 @@ def load_env(
     global_logger_configurator.configure()
 
     pretty_option_str = pprint.pformat(option_map.getOptionDict(), width=50)
-    logger.info(f'Parsed options: {pretty_option_str}')
+    # logger.info(f'Parsed options: {pretty_option_str}')
 
     game = game_loader_class(option_map)
     method = method_class(option_map)
@@ -284,6 +284,6 @@ def load_env(
         for name, (_, option_map_callable) in additional_to_load.items():
             env[name] = option_map_callable(option_map)
 
-    logger.info('Finished loading env')
+    # logger.info('Finished loading env')
 
     return env
