@@ -160,9 +160,9 @@ class SameThreadChecker {
 
   virtual ~SameThreadChecker() {
     if (!check()) {
-      std::cout << "Thread used to "
-                << "construct is different from "
-                << "the destructor thread !" << std::endl;
+      // std::cout << "Thread used to "
+      //           << "construct is different from "
+      //           << "the destructor thread !" << std::endl;
       assert(false);
     }
   }
@@ -200,7 +200,7 @@ class ZMQReceiver : public SameThreadChecker {
       //  Encourage workers until it's time to fire them
       s_send(*broker_, msg);
     } catch (const std::exception& e) {
-      std::cout << "Exception encountered! " << e.what() << std::endl;
+      // std::cout << "Exception encountered! " << e.what() << std::endl;
     }
   }
 
@@ -219,7 +219,7 @@ class ZMQReceiver : public SameThreadChecker {
       *msg = msgs[4];
       return true;
     } catch (const std::exception& e) {
-      std::cout << "Exception encountered! " << e.what() << std::endl;
+      // std::cout << "Exception encountered! " << e.what() << std::endl;
       return false;
     }
   }
@@ -266,7 +266,7 @@ class ZMQSender : public SameThreadChecker {
       s_sendmore(*sender_, "");
       s_send(*sender_, msg);
     } catch (const std::exception& e) {
-      std::cout << "Exception encountered! " << e.what() << std::endl;
+      // std::cout << "Exception encountered! " << e.what() << std::endl;
     }
   }
 
@@ -284,7 +284,7 @@ class ZMQSender : public SameThreadChecker {
       *msg = msgs[3];
       return true;
     } catch (const std::exception& e) {
-      std::cout << "Exception encountered! " << e.what() << std::endl;
+      // std::cout << "Exception encountered! " << e.what() << std::endl;
       return false;
     }
   }

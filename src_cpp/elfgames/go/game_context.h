@@ -41,11 +41,11 @@ class GameContext {
 
     if (options.mode == "selfplay") {
       _writer.reset(new elf::shared::Writer(net_options));
-      std::cout << _writer->info() << std::endl;
+      // std::cout << _writer->info() << std::endl;
       _eval_ctrl.reset(new EvalCtrl(
           _context->getClient(), _writer.get(), options, num_games));
 
-      std::cout << "Send ctrl " << curr_timestamp << std::endl;
+      // std::cout << "Send ctrl " << curr_timestamp << std::endl;
       _writer->Ctrl(std::to_string(curr_timestamp));
     } else if (options.mode == "online") {
       _eval_ctrl.reset(new EvalCtrl(
@@ -75,12 +75,12 @@ class GameContext {
       _offline_loader.reset(
           new DataOfflineLoaderJSON(*_reader, options.list_files));
       _offline_loader->start();
-      std::cout << _reader->info() << std::endl;
+      // std::cout << _reader->info() << std::endl;
       _train_ctrl->RegRecordSender();
       perform_training = true;
 
     } else {
-      std::cout << "Option.mode not recognized!" << options.mode << std::endl;
+      // std::cout << "Option.mode not recognized!" << options.mode << std::endl;
       throw std::range_error("Option.mode not recognized! " + options.mode);
     }
 
@@ -126,8 +126,8 @@ class GameContext {
 
   const GoGameBase* getGame(int game_idx) const {
     if (_check_game_idx(game_idx)) {
-      std::cout << "Invalid game_idx [" + std::to_string(game_idx) + "]"
-                << std::endl;
+      // std::cout << "Invalid game_idx [" + std::to_string(game_idx) + "]"
+      //           << std::endl;
       return nullptr;
     }
 
@@ -245,11 +245,11 @@ class GameContext {
       for (size_t k = 0; k * num_thread + idx < options.list_files.size();
            ++k) {
         const std::string& f = options.list_files[k * num_thread + idx];
-        std::cout << "Load offline data: Reading: " << f << std::endl;
+        // std::cout << "Load offline data: Reading: " << f << std::endl;
 
         std::vector<Record> records;
         if (!Record::loadBatchFromJsonFile(f, &records)) {
-          std::cout << "Offline data loading: Error reading " << f << std::endl;
+          // std::cout << "Offline data loading: Error reading " << f << std::endl;
           return;
         }
 
@@ -283,10 +283,10 @@ class GameContext {
       t.join();
     }
 
-    std::cout << "All offline data are loaded. #record read: " << count
-              << " from " << options.list_files.size() << " files."
-              << std::endl;
-    std::cout << _reader->info() << std::endl;
+    // std::cout << "All offline data are loaded. #record read: " << count
+    //           << " from " << options.list_files.size() << " files."
+    //           << std::endl;
+    // std::cout << _reader->info() << std::endl;
   }
 
   void init_reader(
@@ -307,8 +307,8 @@ class GameContext {
         rs->clear();
         return true;
       } catch (...) {
-        std::cout << "Data malformed! ..." << std::endl;
-        std::cout << s << std::endl;
+        // std::cout << "Data malformed! ..." << std::endl;
+        // std::cout << s << std::endl;
         return false;
       }
     };
@@ -317,7 +317,7 @@ class GameContext {
     _train_ctrl.reset(new TrainCtrl(
         num_games, _context->getClient(), _reader.get(), options, mcts_opt));
     _reader->setConverter(converter);
-    std::cout << _reader->info() << std::endl;
+    // std::cout << _reader->info() << std::endl;
   }
 
   bool _check_game_idx(int game_idx) const {

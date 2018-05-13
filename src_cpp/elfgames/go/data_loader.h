@@ -24,12 +24,12 @@ class DataOfflineLoaderJSON {
     std::atomic<int> count(0);
 
     for (const auto& f : json_files_) {
-      std::cout << "DataOfflineLoaderJSON: Reading: " << f << std::endl;
+      // std::cout << "DataOfflineLoaderJSON: Reading: " << f << std::endl;
       threads.emplace_back([f, n, this, &count]() {
         std::vector<Record> records;
         if (!Record::loadBatchFromJsonFile(f, &records)) {
-          std::cout << "DataOfflineLoaderJSON: Error reading " << f
-                    << std::endl;
+          // std::cout << "DataOfflineLoaderJSON: Error reading " << f
+          //           << std::endl;
           return;
         }
         for (auto&& r : records) {
@@ -43,7 +43,7 @@ class DataOfflineLoaderJSON {
       t.join();
     }
 
-    std::cout << "Save the records to ReaderQueues." << std::endl;
+    // std::cout << "Save the records to ReaderQueues." << std::endl;
   }
 
  private:
@@ -63,7 +63,7 @@ class DataOnlineLoader {
     const std::string database_name =
         "data-" + std::to_string(curr_timestamp) + ".db";
     _reader.reset(new elf::shared::Reader(database_name, net_options));
-    std::cout << _reader->info() << std::endl;
+    // std::cout << _reader->info() << std::endl;
   }
 
   void start(StartFunc start_func = nullptr, ReplyFunc replier = nullptr) {

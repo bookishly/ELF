@@ -317,8 +317,8 @@ class ReaderQueuesT : public RQInterface {
   void inc_insertion_count() {
     total_insertion_++;
     if (total_insertion_ % 1000 == 0) {
-      std::cout << elf_utils::now()
-                << ", ReaderQueue Insertion: " << total_insertion_ << std::endl;
+      // std::cout << elf_utils::now()
+      //           << ", ReaderQueue Insertion: " << total_insertion_ << std::endl;
     }
   }
 

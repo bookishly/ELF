@@ -36,8 +36,8 @@ class GoGameBase {
 
   void mainLoop() {
     if (_options.verbose)
-      std::cout << "[" << _game_idx << "] Seed:" << _seed
-                << ", thread_id: " << std::this_thread::get_id() << std::endl;
+      // std::cout << "[" << _game_idx << "] Seed:" << _seed
+      //           << ", thread_id: " << std::this_thread::get_id() << std::endl;
     // Main loop of the game.
     while (!client_->DoStopGames()) {
       act();

@@ -91,7 +91,7 @@ class TreeSearchSingleThreadT {
     Node* root = search_tree.getRootNode();
     if (root == nullptr || root->getStatePtr() == nullptr) {
       if (stop_search == nullptr || !stop_search->load()) {
-        std::cout << "[" << threadId_ << "] root node is nullptr!" << std::endl;
+        // std::cout << "[" << threadId_ << "] root node is nullptr!" << std::endl;
       }
       return false;
     }

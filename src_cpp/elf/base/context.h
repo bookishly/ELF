@@ -331,7 +331,7 @@ class Context {
     std::thread tmp_thread([&]() {
       assert(nice(10) == 10);
 
-      std::cout << "Prepare to stop ..." << std::endl;
+      // std::cout << "Prepare to stop ..." << std::endl;
       client_->prepareToStop();
 
       // First set the timeout for all collectors to be finite number.
@@ -340,22 +340,22 @@ class Context {
       }
 
       // Then stop all the threads.
-      std::cout << "Stop all game threads ..." << std::endl;
+      // std::cout << "Stop all game threads ..." << std::endl;
       client_->stopGames();
 
-      std::cout << "All games sent notification, "
-                << "Waiting until they join" << std::endl;
+      // std::cout << "All games sent notification, "
+      //           << "Waiting until they join" << std::endl;
 
       for (auto& p : game_threads_) {
         p.join();
       }
 
-      std::cout << "Stop all collectors ..." << std::endl;
+      // std::cout << "Stop all collectors ..." << std::endl;
       for (auto& r : collectors_) {
         r->stop();
       }
 
-      std::cout << "Stop tmp pool..." << std::endl;
+      // std::cout << "Stop tmp pool..." << std::endl;
       tmp_thread_done = true;
     });
 

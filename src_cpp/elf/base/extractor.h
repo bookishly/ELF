@@ -555,7 +555,7 @@ class Extractor {
       auto it = fields_.find(k);
       if (it == fields_.end()) {
         // TODO: This should be Google log (ssengupta@fb)
-        std::cout << "Warning! key[" << k << "] is missing!" << std::endl;
+        // std::cout << "Warning! key[" << k << "] is missing!" << std::endl;
       } else {
         pointers.emplace(k, AnyP(*it->second));
       }

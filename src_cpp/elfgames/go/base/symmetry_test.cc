@@ -61,13 +61,13 @@ void InvTransform(const BoardFeature& bf, const float* feat, float* featBack) {
 void printFeat(float* data) {
   for (int i = 0; i < 3; ++i) {
     float* planeData = boardPlane(data, i);
-    std::cout << "channel " << i << ": " << std::endl;
+    // std::cout << "channel " << i << ": " << std::endl;
     for (size_t j = 0; j < kBoardRegion; ++j) {
-      std::cout << planeData[j] << " ";
-      if ((j + 1) % BOARD_SIZE == 0)
-        std::cout << std::endl;
+      // std::cout << planeData[j] << " ";
+      // if ((j + 1) % BOARD_SIZE == 0)
+        // std::cout << std::endl;
     }
-    std::cout << std::endl;
+    // std::cout << std::endl;
   }
 }
 

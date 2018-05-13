@@ -46,20 +46,20 @@ MCTSGoAI* GoGameSelfPlay::init_ai(
 
   elf::ai::tree_search::TSOptions opt = mcts_options;
   if (puct_override > 0.0) {
-    std::cout << "PUCT overridden: " << opt.alg_opt.c_puct << " -> "
-              << puct_override << std::endl;
+    // std::cout << "PUCT overridden: " << opt.alg_opt.c_puct << " -> "
+    //           << puct_override << std::endl;
     opt.alg_opt.c_puct = puct_override;
   }
   if (mcts_rollout_per_batch_override > 0) {
-    std::cout << "mcts_rollout_per_batch_override overridden: "
-              << opt.num_rollouts_per_batch << " -> "
-              << mcts_rollout_per_batch_override << std::endl;
+    // std::cout << "mcts_rollout_per_batch_override overridden: "
+    //           << opt.num_rollouts_per_batch << " -> "
+    //           << mcts_rollout_per_batch_override << std::endl;
     opt.num_rollouts_per_batch = mcts_rollout_per_batch_override;
   }
   if (mcts_rollout_per_thread_override > 0) {
-    std::cout << "mcts_rollout_per_thread_override overridden: "
-              << opt.num_rollouts_per_thread << " -> "
-              << mcts_rollout_per_thread_override << std::endl;
+    // std::cout << "mcts_rollout_per_thread_override overridden: "
+    //           << opt.num_rollouts_per_thread << " -> "
+    //           << mcts_rollout_per_thread_override << std::endl;
     opt.num_rollouts_per_thread = mcts_rollout_per_thread_override;
   }
 
@@ -156,12 +156,12 @@ void GoGameSelfPlay::check_new_request() {
     bool is_prev_waiting = _state_ext.currRequest().vers.wait();
 
     if (_options.verbose && !(is_waiting && is_prev_waiting)) {
-      std::cout << "Receive request: "
-                << (!is_waiting ? request.info() : "[wait]");
-      std::cout << ", old: "
-                << (!is_prev_waiting ? _state_ext.currRequest().info()
-                                     : "[wait]");
-      std::cout << std::endl;
+      // std::cout << "Receive request: "
+      //           << (!is_waiting ? request.info() : "[wait]");
+      // std::cout << ", old: "
+      //           << (!is_prev_waiting ? _state_ext.currRequest().info()
+      //                                : "[wait]");
+      // std::cout << std::endl;
     }
 
     bool same_vers = (request.vers == _state_ext.currRequest().vers);
@@ -252,7 +252,7 @@ void GoGameSelfPlay::restart() {
         request.vers.black_ver));
     _human_player.reset(new AI(client_, {"human_actor"}));
   } else {
-    std::cout << "Unknown mode! " << _options.mode << std::endl;
+    // std::cout << "Unknown mode! " << _options.mode << std::endl;
     throw std::range_error("Unknown mode");
   }
 
@@ -266,11 +266,11 @@ void GoGameSelfPlay::restart() {
     while (!_sgf_iter.done() && i < _options.preload_sgf_move_to) {
       auto curr = _sgf_iter.getCurrMove();
       if (!_state_ext.forward(curr.move)) {
-        std::cout << _state_ext.state().showBoard() << std::endl;
-        std::cout << "Proposed move: "
-                  << elf::ai::tree_search::ActionTrait<Coord>::to_string(
-                         curr.move)
-                  << std::endl;
+        // std::cout << _state_ext.state().showBoard() << std::endl;
+        // std::cout << "Proposed move: "
+        //           << elf::ai::tree_search::ActionTrait<Coord>::to_string(
+        //                  curr.move)
+        //           << std::endl;
         throw std::runtime_error("Preload sgf: move not valid!");
       }
       i++;
@@ -372,11 +372,11 @@ void GoGameSelfPlay::act() {
   c = mcts_update_info(curr_ai, c);
 
   if (show_board) {
-    std::cout << "Current board: " << std::endl;
-    std::cout << s.showBoard() << std::endl;
-    std::cout << "[" << s.getPly() << "] Propose move "
-              << elf::ai::tree_search::ActionTrait<Coord>::to_string(c)
-              << std::endl;
+    // std::cout << "Current board: " << std::endl;
+    // std::cout << s.showBoard() << std::endl;
+    // std::cout << "[" << s.getPly() << "] Propose move "
+    //           << elf::ai::tree_search::ActionTrait<Coord>::to_string(c)
+    //           << std::endl;
   }
 
   const bool shouldResign = _state_ext.shouldResign(&_rng);
@@ -391,24 +391,24 @@ void GoGameSelfPlay::act() {
       return;
     }
     Coord new_c = _sgf_iter.getCurrMove().move;
-    std::cout << "[" << s.getPly() << "] Move changes from "
-              << elf::ai::tree_search::ActionTrait<Coord>::to_string(c)
-              << " to "
-              << elf::ai::tree_search::ActionTrait<Coord>::to_string(new_c)
-              << std::endl;
+    // std::cout << "[" << s.getPly() << "] Move changes from "
+    //           << elf::ai::tree_search::ActionTrait<Coord>::to_string(c)
+    //           << " to "
+    //           << elf::ai::tree_search::ActionTrait<Coord>::to_string(new_c)
+    //           << std::endl;
     c = new_c;
     ++_sgf_iter;
   }
 
   if (!_state_ext.forward(c)) {
-    std::cout << "Something wrong! Move: " << c << "cannot be applied"
-              << std::endl;
-    std::cout << "Current board: " << std::endl;
-    std::cout << s.showBoard() << std::endl;
-    std::cout << "[" << s.getPly() << "] Propose move "
-              << elf::ai::tree_search::ActionTrait<Coord>::to_string(c)
-              << std::endl;
-    std::cout << _state_ext.dumpSgf("") << std::endl;
+    // std::cout << "Something wrong! Move: " << c << "cannot be applied"
+    //           << std::endl;
+    // std::cout << "Current board: " << std::endl;
+    // std::cout << s.showBoard() << std::endl;
+    // std::cout << "[" << s.getPly() << "] Propose move "
+    //           << elf::ai::tree_search::ActionTrait<Coord>::to_string(c)
+    //           << std::endl;
+    // std::cout << _state_ext.dumpSgf("") << std::endl;
     return;
   }
 

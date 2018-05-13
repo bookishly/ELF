@@ -34,12 +34,12 @@ struct ContextOptions {
   ContextOptions() {}
 
   void print() const {
-    std::cout << "JobId: " << job_id << std::endl;
-    std::cout << "#Game: " << num_games << std::endl;
-    std::cout << "T: " << T << std::endl;
-    if (verbose_comm)
-      std::cout << "Comm Verbose On" << std::endl;
-    std::cout << mcts_options.info() << std::endl;
+    // std::cout << "JobId: " << job_id << std::endl;
+    // std::cout << "#Game: " << num_games << std::endl;
+    // std::cout << "T: " << T << std::endl;
+    // if (verbose_comm)
+    //   std::cout << "Comm Verbose On" << std::endl;
+    // std::cout << mcts_options.info() << std::endl;
   }
 
   REGISTER_PYBIND_FIELDS(

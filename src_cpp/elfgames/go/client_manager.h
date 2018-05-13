@@ -139,15 +139,15 @@ class ClientManager {
     }
 
     if (!newly_dead.empty() || !newly_alive.empty()) {
-      std::cout << getCurrTimeStamp()
-                << " Client newly dead: " << newly_dead.size()
-                << ", newly alive: " << newly_alive.size() << ", " << _info()
-                << std::endl;
+      // std::cout << getCurrTimeStamp()
+      //           << " Client newly dead: " << newly_dead.size()
+      //           << ", newly alive: " << newly_alive.size() << ", " << _info()
+      //           << std::endl;
       for (const auto& s : newly_dead) {
-        std::cout << "Newly dead: " << s << std::endl;
+        // std::cout << "Newly dead: " << s << std::endl;
       }
       for (const auto& s : newly_alive) {
-        std::cout << "Newly alive: " << s << std::endl;
+        // std::cout << "Newly alive: " << s << std::endl;
       }
     }
   }

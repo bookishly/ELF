@@ -273,8 +273,8 @@ class GoStateExtOffline {
   bool switchRandomMove(std::mt19937* rng) {
     // Random sample one move
     if ((int)_offline_all_moves.size() <= _options.num_future_actions - 1) {
-      std::cout << "#moves " << _offline_all_moves.size() << " smaller than "
-                << _options.num_future_actions << " - 1" << std::endl;
+      // std::cout << "#moves " << _offline_all_moves.size() << " smaller than "
+      //           << _options.num_future_actions << " - 1" << std::endl;
       return false;
     }
     size_t move_to = (*rng)() %

@@ -91,8 +91,8 @@ class Writer {
       return false;
 
     if (title != "reply") {
-      std::cout << "Writer[" << identity_ << "] wrong title " << title
-                << " in getReplyNoblock()" << std::endl;
+      // std::cout << "Writer[" << identity_ << "] wrong title " << title
+      //           << " in getReplyNoblock()" << std::endl;
       return false;
     } else {
       return true;

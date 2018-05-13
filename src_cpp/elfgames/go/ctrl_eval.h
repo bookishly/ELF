@@ -81,8 +81,8 @@ class ModelPerf {
     eval_result_ = eval_check();
 
     if (n_done() > 0 && (sent_ % 100 == 0 || recv_ % 100 == 0)) {
-      std::cout << "EvalResult: [" << elf_utils::now() << "]" << info()
-                << std::endl;
+      // std::cout << "EvalResult: [" << elf_utils::now() << "]" << info()
+      //           << std::endl;
     }
 
     if (sealed_ || eval_result_ == EVAL_INCOMPLETE)
@@ -120,9 +120,9 @@ class ModelPerf {
       if (fair_pick::release_request(res))
         continue;
       if (sent_ % 100 == 0) {
-        std::cout << elf_utils::now()
-                  << " Sending evaluation request: " << curr_pair_.info()
-                  << ", sent: " << sent_ << std::endl;
+        // std::cout << elf_utils::now()
+        //           << " Sending evaluation request: " << curr_pair_.info()
+        //           << ", sent: " << sent_ << std::endl;
       }
 
       // We only use eval_num_threads threads to run evaluation to make it
@@ -204,9 +204,9 @@ class ModelPerf {
   void set_sealed() {
     // Save all games.
     sealed_ = true;
-    std::cout << "Sealed[pass=" << (eval_result_ == EVAL_BLACK_PASS) << "]["
-              << elf_utils::now() << "]" << info() << ", "
-              << record_.prefix_save_counter() << std::endl;
+    // std::cout << "Sealed[pass=" << (eval_result_ == EVAL_BLACK_PASS) << "]["
+    //           << elf_utils::now() << "]" << info() << ", "
+    //           << record_.prefix_save_counter() << std::endl;
     record_.saveCurrent();
     record_.clear();
   }
@@ -237,7 +237,7 @@ class EvalSubCtrl {
       auto res = perf.updateState(mgr);
       switch (res) {
         case ModelPerf::EVAL_INVALID:
-          std::cout << "res cannot be EVAL_INVALID" << std::endl;
+          // std::cout << "res cannot be EVAL_INVALID" << std::endl;
           assert(false);
         case ModelPerf::EVAL_INCOMPLETE:
           break;
@@ -296,7 +296,7 @@ class EvalSubCtrl {
     models_to_eval_.clear();
     // All perfs need to go away as well.
     // perfs_.clear();
-    std::cout << "Set new baseline model, ver: " << ver << std::endl;
+    // std::cout << "Set new baseline model, ver: " << ver << std::endl;
   }
 
   void addNewModelForEvaluation(int64_t selfplay_ver, int64_t new_version) {
@@ -304,21 +304,21 @@ class EvalSubCtrl {
 
     if (selfplay_ver == best_baseline_model_) {
       if (selfplay_ver < new_version) {
-        std::cout << "Add new version: " << new_version
-                  << ", selfplay_ver: " << selfplay_ver
-                  << ", baseline: " << best_baseline_model_ << mcts_opt_.info()
-                  << std::endl;
+        // std::cout << "Add new version: " << new_version
+        //           << ", selfplay_ver: " << selfplay_ver
+        //           << ", baseline: " << best_baseline_model_ << mcts_opt_.info()
+        //           << std::endl;
         add_candidate_model(new_version);
       } else {
-        std::cout << "New version: " << new_version
-                  << " is the same or earlier tha "
-                  << ", baseline: " << best_baseline_model_ << mcts_opt_.info()
-                  << std::endl;
+        // std::cout << "New version: " << new_version
+        //           << " is the same or earlier tha "
+        //           << ", baseline: " << best_baseline_model_ << mcts_opt_.info()
+        //           << std::endl;
       }
     } else {
-      std::cout << "New version " << new_version << " is not registered. "
-                << "Selfplay_ver " << selfplay_ver << " != internal one "
-                << best_baseline_model_ << std::endl;
+      // std::cout << "New version " << new_version << " is not registered. "
+      //           << "Selfplay_ver " << selfplay_ver << " != internal one "
+      //           << best_baseline_model_ << std::endl;
     }
   }
 
@@ -372,8 +372,8 @@ class EvalSubCtrl {
   ModelPerf* find_or_null(const ModelPair& mp) {
     auto it = perfs_.find(mp);
     if (it == perfs_.end()) {
-      std::cout << "The pair " + mp.info() + " was not sent before!"
-                << std::endl;
+      // std::cout << "The pair " + mp.info() + " was not sent before!"
+      //           << std::endl;
       return nullptr;
     }
     return it->second.get();

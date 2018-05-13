@@ -55,7 +55,7 @@ bool Sgf::load(const std::string& filename, const std::string& game_string) {
     }
     return true;
   } else {
-    std::cout << "Failed to read the header of " << filename << std::endl;
+    // std::cout << "Failed to read the header of " << filename << std::endl;
   }
   return false;
 }

@@ -192,8 +192,8 @@ struct SelfPlayRecord {
       move300_up++;
 
     if (counter_ - last_counter_shown_ >= 100) {
-      std::cout << elf_utils::now() << std::endl;
-      std::cout << info() << std::endl;
+      // std::cout << elf_utils::now() << std::endl;
+      // std::cout << info() << std::endl;
       last_counter_shown_ = counter_;
     }
   }
@@ -333,10 +333,10 @@ class SelfPlaySubCtrl {
     perf->feed(r);
     total_selfplay_++;
     if (total_selfplay_ % 1000 == 0) {
-      std::cout << elf_utils::now()
-                << " SelfPlaySubCtrl: #total selfplay feeded: "
-                << total_selfplay_ << ", " << resignThresholdCalculator_.info()
-                << std::endl;
+      // std::cout << elf_utils::now()
+      //           << " SelfPlaySubCtrl: #total selfplay feeded: "
+      //           << total_selfplay_ << ", " << resignThresholdCalculator_.info()
+      //           << std::endl;
     }
     perf->checkAndSave();
     return FEEDED;
@@ -354,7 +354,7 @@ class SelfPlaySubCtrl {
   bool setCurrModel(int64_t ver) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (ver != curr_ver_) {
-      std::cout << "SelfPlay: " << curr_ver_ << " -> " << ver << std::endl;
+      // std::cout << "SelfPlay: " << curr_ver_ << " -> " << ver << std::endl;
       curr_ver_ = ver;
       find_or_create(curr_ver_);
       return true;
@@ -437,9 +437,9 @@ class SelfPlaySubCtrl {
   SelfPlayRecord* find_or_null(int64_t ver) {
     auto it = perfs_.find(ver);
     if (it == perfs_.end()) {
-      std::cout << "The version " + std::to_string(ver) +
-              " was not sent before!"
-                << std::endl;
+      // std::cout << "The version " + std::to_string(ver) +
+      //         " was not sent before!"
+      //           << std::endl;
       return nullptr;
     }
     return it->second.get();
@@ -448,9 +448,9 @@ class SelfPlaySubCtrl {
   const SelfPlayRecord* find_or_null(int64_t ver) const {
     auto it = perfs_.find(ver);
     if (it == perfs_.end()) {
-      std::cout << "The version " + std::to_string(ver) +
-              " was not sent before!"
-                << std::endl;
+      // std::cout << "The version " + std::to_string(ver) +
+      //         " was not sent before!"
+      //           << std::endl;
       return nullptr;
     }
     return it->second.get();

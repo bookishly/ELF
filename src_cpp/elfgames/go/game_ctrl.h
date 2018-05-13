@@ -133,11 +133,11 @@ class ThreadedDispatcher : public ThreadedCtrlBase {
   void before_loop() override {
     // Wait for all games + this processing thread.
     int num_games = ctrl_info_.num_games;
-    std::cout << "Wait all games[" << num_games << "] to register their mailbox"
-              << std::endl;
+    // std::cout << "Wait all games[" << num_games << "] to register their mailbox"
+    //           << std::endl;
     game_counter_.waitUntilCount(num_games);
     game_counter_.reset();
-    std::cout << "All games [" << num_games << "] registered" << std::endl;
+    // std::cout << "All games [" << num_games << "] registered" << std::endl;
   }
 
   void on_thread() override {
@@ -154,8 +154,8 @@ class ThreadedDispatcher : public ThreadedCtrlBase {
       return false;
     }
 
-    std::cout << elf_utils::now()
-              << ", EvalCtrl get new request: " << request.info() << std::endl;
+    // std::cout << elf_utils::now()
+    //           << ", EvalCtrl get new request: " << request.info() << std::endl;
     curr_request_ = request;
 
     MsgRequest wait_request;
@@ -201,10 +201,10 @@ class ThreadedDispatcher : public ThreadedCtrlBase {
 
     if (update_model) {
       // Once it is done, send to Python side.
-      std::cout << elf_utils::now() << " Get actionable request: black_ver = "
-                << request.vers.black_ver
-                << ", white_ver = " << request.vers.white_ver
-                << ", #addrs_to_reply: " << addrs_to_reply.size() << std::endl;
+      // std::cout << elf_utils::now() << " Get actionable request: black_ver = "
+      //           << request.vers.black_ver
+      //           << ", white_ver = " << request.vers.white_ver
+      //           << ", #addrs_to_reply: " << addrs_to_reply.size() << std::endl;
       elf::FuncsWithState funcs = ctrl_info_.client->BindStateToFunctions(
           {start_target_}, &request.vers);
       ctrl_info_.client->sendWait({start_target_}, &funcs);
@@ -229,14 +229,14 @@ class ThreadedSelfplay : public ThreadedCtrlBase {
     while (
         (res = ctrl_info_.selfplay_ctrl->needWaitForMoreSample(selfplay_ver)) ==
         SelfPlaySubCtrl::CtrlResult::INSUFFICIENT_SAMPLE) {
-      std::cout << elf_utils::now() << ", Insufficient sample for model "
-                << selfplay_ver << "... waiting 30s" << std::endl;
+      // std::cout << elf_utils::now() << ", Insufficient sample for model "
+      //           << selfplay_ver << "... waiting 30s" << std::endl;
       std::this_thread::sleep_for(30s);
     }
 
     if (res == SelfPlaySubCtrl::CtrlResult::SUFFICIENT_SAMPLE) {
-      std::cout << elf_utils::now() << ", Sufficient sample for model "
-                << selfplay_ver << std::endl;
+      // std::cout << elf_utils::now() << ", Sufficient sample for model "
+      //           << selfplay_ver << std::endl;
       ctrl_info_.selfplay_ctrl->notifyCurrentWeightUpdate();
     }
   }
@@ -264,8 +264,8 @@ class ThreadedSelfplay : public ThreadedCtrlBase {
 
     // After setCurrModel, new model from python side with the old selfplay_ver
     // will not enter the replay buffer
-    std::cout << "Updating .. old_ver: " << old_ver << ", new_ver: " << ver
-              << std::endl;
+    // std::cout << "Updating .. old_ver: " << old_ver << ", new_ver: " << ver
+    //           << std::endl;
     // A better model is found, clean up old games (or not?)
     if (!ctrl_info_.options.keep_prev_selfplay) {
       ctrl_info_.reader->clear();
@@ -321,22 +321,22 @@ class ThreadedWriterCtrl : public ThreadedCtrlBase {
     std::string smsg;
     // Will block..
     if (!ctrl_info_.writer->getReplyNoblock(&smsg)) {
-      std::cout << elf_utils::now()
-                << ", WriterCtrl: no message, sleep for a while .. "
-                << std::endl;
+      // std::cout << elf_utils::now()
+      //           << ", WriterCtrl: no message, sleep for a while .. "
+      //           << std::endl;
       std::this_thread::sleep_for(10s);
       return;
     }
 
-    std::cout << elf_utils::now() << " In reply func: Message got..."
-              << std::endl;
+    // std::cout << elf_utils::now() << " In reply func: Message got..."
+    //           << std::endl;
     // cout << smsg << endl;
 
     json j = json::parse(smsg);
     MsgRequestSeq msg = MsgRequestSeq::createFromJson(j);
     if (msg.seq != seq_) {
-      std::cout << "Warning! The sequence number [" << msg.seq
-                << "] in the msg is different from " << seq_ << std::endl;
+      // std::cout << "Warning! The sequence number [" << msg.seq
+      //           << "] in the msg is different from " << seq_ << std::endl;
     }
 
     ctrl_.sendMail(request_destination_, msg.request);
@@ -358,9 +358,9 @@ class ThreadedWriterCtrl : public ThreadedCtrlBase {
     }
     std::cout << std::endl;
     */
-    std::cout << "Sending state update[" << elf_utils::now()
-              << "], #records: " << records_.records.size()
-              << ", #states: " << records_.states.size() << std::endl;
+    // std::cout << "Sending state update[" << elf_utils::now()
+    //           << "], #records: " << records_.records.size()
+    //           << ", #states: " << records_.states.size() << std::endl;
 
     ctrl_info_.writer->Insert(records_.dumpJsonString());
     records_.clear();
@@ -403,7 +403,7 @@ class TrainCtrl {
   }
 
   bool setInitialVersion(int64_t init_version) {
-    std::cout << "Setting init version: " << init_version << std::endl;
+    // std::cout << "Setting init version: " << init_version << std::endl;
     ctrl_info_.eval_ctrl->setBaselineModel(init_version);
 
     if (ctrl_info_.selfplay_ctrl->getCurrModel() < 0) {
@@ -414,8 +414,8 @@ class TrainCtrl {
   }
 
   bool setEvalMode(int64_t new_ver, int64_t old_ver) {
-    std::cout << "Setting eval mode: new: " << new_ver << ", old: " << old_ver
-              << std::endl;
+    // std::cout << "Setting eval mode: new: " << new_ver << ", old: " << old_ver
+    //           << std::endl;
     ctrl_info_.client_mgr->setSelfplayOnlyRatio(0.0);
     ctrl_info_.eval_ctrl->setBaselineModel(old_ver);
     ctrl_info_.eval_ctrl->addNewModelForEvaluation(old_ver, new_ver);
@@ -478,8 +478,8 @@ class TrainCtrl {
     ClientInfo& info = ctrl_info_.client_mgr->getClient(identity);
 
     if (info.justAllocated()) {
-      std::cout << "New allocated: " << identity << ", "
-                << ctrl_info_.client_mgr->info() << std::endl;
+      // std::cout << "New allocated: " << identity << ", "
+      //           << ctrl_info_.client_mgr->info() << std::endl;
     }
 
     MsgRequestSeq request;
@@ -530,11 +530,11 @@ class TrainCtrl {
           valid_eval++;
       }
 
-      std::cout << "TrainCtrl: Receive data[" << recv_count_ << "] from "
-                << rs.identity << ", #state_update: " << rs.states.size()
-                << ", #records: " << rs.records.size()
-                << ", #valid_selfplay: " << valid_selfplay
-                << ", #valid_eval: " << valid_eval << std::endl;
+      // std::cout << "TrainCtrl: Receive data[" << recv_count_ << "] from "
+      //           << rs.identity << ", #state_update: " << rs.states.size()
+      //           << ", #records: " << rs.records.size()
+      //           << ", #valid_selfplay: " << valid_selfplay
+      //           << ", #valid_eval: " << valid_eval << std::endl;
     }
     return true;
   }
@@ -570,7 +570,7 @@ class TrainCtrl {
         }
         break;
       case CLIENT_INVALID:
-        std::cout << "Warning! Invalid client_type! " << std::endl;
+        // std::cout << "Warning! Invalid client_type! " << std::endl;
         break;
     }
   }

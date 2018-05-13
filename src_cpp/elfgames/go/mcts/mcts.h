@@ -109,7 +109,7 @@ class MCTSActor {
     // cout << "About to send situation to " << params_.actor_name << endl;
     // cout << s.showBoard() << endl;
     if (!ai_->act_batch(p_bfs, p_replies)) {
-      std::cout << "act unsuccessful! " << std::endl;
+      // std::cout << "act unsuccessful! " << std::endl;
     } else {
       for (size_t i = 0; i < sel_indices.size(); i++) {
         post_nn_result(replies[i], &resps[sel_indices[i]]);
@@ -137,7 +137,7 @@ class MCTSActor {
       // AI-Client will run a one-step neural network
       if (!ai_->act(bf, &reply)) {
         // This happens when the game is about to end,
-        std::cout << "act unsuccessful! " << std::endl;
+        // std::cout << "act unsuccessful! " << std::endl;
       } else {
         // call pi2response()
         // action will be inv-transformed
@@ -208,7 +208,7 @@ class MCTSActor {
       const std::string msg = "model version " + std::to_string(reply.version) +
           " and required version " + std::to_string(params_.required_version) +
           " are not consistent";
-      std::cout << msg << std::endl;
+      // std::cout << msg << std::endl;
       throw std::runtime_error(msg);
     }
 

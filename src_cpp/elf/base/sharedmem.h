@@ -143,10 +143,10 @@ class SharedMem {
 
     if ((int)active_batch_size_ > opts_.getBatchSize() ||
         (int)active_batch_size_ < opts_.getMinBatchSize()) {
-      std::cout << "Error: active_batch_size =  " << active_batch_size_
-                << ", max_batch_size: " << opts_.getBatchSize()
-                << ", min_batch_size: " << opts_.getMinBatchSize()
-                << ", #msg count: " << msgs_from_client_.size() << std::endl;
+      // std::cout << "Error: active_batch_size =  " << active_batch_size_
+      //           << ", max_batch_size: " << opts_.getBatchSize()
+      //           << ", min_batch_size: " << opts_.getMinBatchSize()
+      //           << ", #msg count: " << msgs_from_client_.size() << std::endl;
       assert(false);
     }
 

@@ -27,7 +27,7 @@ class GameStats {
   void resetRankingIfNeeded(int num_reset_ranking) {
     std::lock_guard<std::mutex> lock(_mutex);
     if (_move_ranking.total_count > (uint64_t)num_reset_ranking) {
-      std::cout << std::endl << _move_ranking.info() << std::endl;
+      // std::cout << std::endl << _move_ranking.info() << std::endl;
       _move_ranking.reset();
     }
   }

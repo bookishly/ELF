@@ -12,7 +12,7 @@
   if (j.find(#field) != j.end()) {                                         \
     target.field = j[#field];                                              \
   } else {                                                                 \
-    std::cout << "Error: " << #field << " cannot be found! " << std::endl; \
+    // std::cout << "Error: " << #field << " cannot be found! " << std::endl; \
     throw std::runtime_error(#field "cannot not be found!");               \
   }
 
@@ -29,7 +29,7 @@
   if (j.find(#field) != j.end()) {                                         \
     target.field = target.field.createFromJson(j[#field]);                 \
   } else {                                                                 \
-    std::cout << "Error: " << #field << " cannot be found! " << std::endl; \
+    // std::cout << "Error: " << #field << " cannot be found! " << std::endl; \
     throw std::runtime_error(#field "cannot not be found!");               \
   }
 
@@ -37,7 +37,7 @@
   if (j.find(#field) != j.end()) {                                         \
     target.field = target.field.createFromJson(j[#field], __VA_ARGS__);    \
   } else {                                                                 \
-    std::cout << "Error: " << #field << " cannot be found! " << std::endl; \
+    // std::cout << "Error: " << #field << " cannot be found! " << std::endl; \
     throw std::runtime_error(#field "cannot not be found!");               \
   }
 
@@ -48,7 +48,7 @@
       target.field.push_back(j[#field][i]);                                \
     }                                                                      \
   } else {                                                                 \
-    std::cout << "Error: " << #field << " cannot be found! " << std::endl; \
+    // std::cout << "Error: " << #field << " cannot be found! " << std::endl; \
     throw std::runtime_error(#field "cannot not be found!");               \
   }
 

@@ -121,9 +121,9 @@ struct EdgeInfo {
   void checkValid() const {
     if (virtual_loss != 0) {
       // TODO: This should be a Google log (ssengupta@fb)
-      std::cout << "Virtual loss is not zero[" << virtual_loss << "]"
-                << std::endl;
-      std::cout << info(true) << std::endl;
+      // std::cout << "Virtual loss is not zero[" << virtual_loss << "]"
+      //           << std::endl;
+      // std::cout << info(true) << std::endl;
       assert(virtual_loss == 0);
     }
   }
