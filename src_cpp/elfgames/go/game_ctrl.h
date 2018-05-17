@@ -133,11 +133,11 @@ class ThreadedDispatcher : public ThreadedCtrlBase {
   void before_loop() override {
     // Wait for all games + this processing thread.
     int num_games = ctrl_info_.num_games;
-    std::cout << "Wait all games[" << num_games << "] to register their mailbox"
-              << std::endl;
+    // std::cout << "Wait all games[" << num_games << "] to register their mailbox"
+    //           << std::endl;
     game_counter_.waitUntilCount(num_games);
     game_counter_.reset();
-    std::cout << "All games [" << num_games << "] registered" << std::endl;
+    // std::cout << "All games [" << num_games << "] registered" << std::endl;
   }
 
   void on_thread() override {
@@ -154,8 +154,8 @@ class ThreadedDispatcher : public ThreadedCtrlBase {
       return false;
     }
 
-    std::cout << elf_utils::now()
-              << ", EvalCtrl get new request: " << request.info() << std::endl;
+    // std::cout << elf_utils::now()
+    //           << ", EvalCtrl get new request: " << request.info() << std::endl;
     curr_request_ = request;
 
     MsgRequest wait_request;
@@ -201,10 +201,10 @@ class ThreadedDispatcher : public ThreadedCtrlBase {
 
     if (update_model) {
       // Once it is done, send to Python side.
-      std::cout << elf_utils::now() << " Get actionable request: black_ver = "
-                << request.vers.black_ver
-                << ", white_ver = " << request.vers.white_ver
-                << ", #addrs_to_reply: " << addrs_to_reply.size() << std::endl;
+      // std::cout << elf_utils::now() << " Get actionable request: black_ver = "
+      //           << request.vers.black_ver
+      //           << ", white_ver = " << request.vers.white_ver
+      //           << ", #addrs_to_reply: " << addrs_to_reply.size() << std::endl;
       elf::FuncsWithState funcs = ctrl_info_.client->BindStateToFunctions(
           {start_target_}, &request.vers);
       ctrl_info_.client->sendWait({start_target_}, &funcs);

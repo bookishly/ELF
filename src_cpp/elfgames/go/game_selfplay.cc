@@ -32,13 +32,13 @@ MCTSGoAI* GoGameSelfPlay::init_ai(
     int mcts_rollout_per_batch_override,
     int mcts_rollout_per_thread_override,
     int64_t model_ver) {
-  logger_->info(
-      "Initializing actor {}; puct_override: {}; batch_override: {}; "
-      "per_thread_override: {}",
-      actor_name,
-      puct_override,
-      mcts_rollout_per_batch_override,
-      mcts_rollout_per_thread_override);
+  // logger_->info(
+  //     "Initializing actor {}; puct_override: {}; batch_override: {}; "
+  //     "per_thread_override: {}",
+  //     actor_name,
+  //     puct_override,
+  //     mcts_rollout_per_batch_override,
+  //     mcts_rollout_per_thread_override);
 
   MCTSActorParams params;
   params.actor_name = actor_name;
@@ -49,22 +49,22 @@ MCTSGoAI* GoGameSelfPlay::init_ai(
 
   elf::ai::tree_search::TSOptions opt = mcts_options;
   if (puct_override > 0.0) {
-    logger_->warn(
-        "PUCT overridden: {} -> {}", opt.alg_opt.c_puct, puct_override);
+    // logger_->warn(
+    //     "PUCT overridden: {} -> {}", opt.alg_opt.c_puct, puct_override);
     opt.alg_opt.c_puct = puct_override;
   }
   if (mcts_rollout_per_batch_override > 0) {
-    logger_->warn(
-        "Batch size overridden: {} -> {}",
-        opt.num_rollouts_per_batch,
-        mcts_rollout_per_batch_override);
+    // logger_->warn(
+    //     "Batch size overridden: {} -> {}",
+    //     opt.num_rollouts_per_batch,
+    //     mcts_rollout_per_batch_override);
     opt.num_rollouts_per_batch = mcts_rollout_per_batch_override;
   }
   if (mcts_rollout_per_thread_override > 0) {
-    logger_->warn(
-        "Rollouts per thread overridden: {} -> {}",
-        opt.num_rollouts_per_thread,
-        mcts_rollout_per_thread_override);
+    // logger_->warn(
+    //     "Rollouts per thread overridden: {} -> {}",
+    //     opt.num_rollouts_per_thread,
+    //     mcts_rollout_per_thread_override);
     opt.num_rollouts_per_thread = mcts_rollout_per_thread_override;
   }
 
@@ -352,7 +352,7 @@ void GoGameSelfPlay::act() {
       funcs = client_->BindStateToFunctions({"game_end"}, &_state_ext.state());
       client_->sendWait({"game_end"}, &funcs);
 
-      logger_->info("Received command to prepare to stop");
+      // logger_->info("Received command to prepare to stop");
       std::this_thread::sleep_for(std::chrono::seconds(1));
       return;
     }
@@ -377,11 +377,11 @@ void GoGameSelfPlay::act() {
   c = mcts_update_info(curr_ai, c);
 
   if (show_board) {
-    logger_->info(
-        "Current board:\n{}\n[{}] Propose move {}\n",
-        s.showBoard(),
-        s.getPly(),
-        elf::ai::tree_search::ActionTrait<Coord>::to_string(c));
+    // logger_->info(
+    //     "Current board:\n{}\n[{}] Propose move {}\n",
+    //     s.showBoard(),
+    //     s.getPly(),
+    //     elf::ai::tree_search::ActionTrait<Coord>::to_string(c));
   }
 
   const bool shouldResign = _state_ext.shouldResign(&_rng);
@@ -396,11 +396,11 @@ void GoGameSelfPlay::act() {
       return;
     }
     Coord new_c = _sgf_iter.getCurrMove().move;
-    logger_->info(
-        "[{}] Move changes from {} to {}",
-        s.getPly(),
-        elf::ai::tree_search::ActionTrait<Coord>::to_string(c),
-        elf::ai::tree_search::ActionTrait<Coord>::to_string(new_c));
+    // logger_->info(
+    //     "[{}] Move changes from {} to {}",
+    //     s.getPly(),
+    //     elf::ai::tree_search::ActionTrait<Coord>::to_string(c),
+    //     elf::ai::tree_search::ActionTrait<Coord>::to_string(new_c));
     c = new_c;
     ++_sgf_iter;
   }
