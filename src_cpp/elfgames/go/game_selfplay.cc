@@ -105,6 +105,7 @@ Coord GoGameSelfPlay::mcts_update_info(MCTSGoAI* mcts_go_ai, Coord c) {
   if (_human_player != nullptr && we_are_good &&
       _state_ext.state().lastMove() == M_PASS && _options.following_pass)
     c = M_PASS;
+  cout << "we are calling update info" << endl;
 
   // Check the ranking of selected move.
   auto move_rank = mcts_go_ai->getLastResult().getRank(
