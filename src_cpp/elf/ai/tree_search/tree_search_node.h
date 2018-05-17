@@ -18,6 +18,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include <boost/format.hpp>
+
 #include "tree_search_base.h"
 #include "tree_search_options.h"
 
@@ -531,6 +533,78 @@ class SearchTreeT {
       }
       ss << indent_str << "- Prior Entropy: " << entropy << std::endl;
     }
+    return ss.str();
+  }
+
+  std::string toBoardpoint(const std::string& s) const {
+    std::string s2 = s.substr(1, 3);
+    if (s2[2] == ']') s2 = s2.substr(0, 2);
+    return s2;
+  }
+
+  std::string indentVisits(int v) const {
+    std::stringstream ins, vs;
+    vs << v;
+    ins << "     ";
+    while (vs.str().length() + ins.str().length() < 8) ins << " ";
+    return ins.str();
+  }
+
+  std::string indent(const std::string &s, int total) const {
+    std::stringstream ss;
+    while (ss.str().length() + s.length() < total) ss << " ";
+    return ss.str();
+  }
+
+  std::string pct(float v) const {
+    boost::format fm("%.2f%%");
+    fm % v;
+    return fm.str();
+  }
+
+  std::string getPV(const Node* node) const {
+    std::stringstream ss;
+    const Node* next = node;
+    while (next) {
+      int max_vis = 0;
+      const Node *max_node = nullptr;
+      std::string max_bp;
+      for (const auto& p : next->getStateActions()) {
+        max_vis = std::max(max_vis, p.second.num_visits);
+        if (max_vis > 0 && p.second.num_visits == max_vis) {
+          max_node = getNode(p.second.child_node);
+          max_bp = toBoardpoint(ActionTrait<Action>::to_string(p.first));
+        }
+      }
+      next = max_node;
+      if (max_node) ss << max_bp << " ";
+    }
+    return ss.str();
+  }
+
+  std::string printPonderTree(const Node* node) const {
+    std::stringstream ss;
+    ss << "~begin" << std::endl;
+    int total = 0;
+    for (const auto& p : node->getStateActions()) {
+      total += p.second.num_visits;
+    }
+    for (const auto& p : node->getStateActions()) {
+      if (p.second.num_visits > 0) {
+        const Node* n = getNode(p.second.child_node);
+        if (n->isVisited()) {
+          std::string bp = toBoardpoint(ActionTrait<Action>::to_string(p.first));
+          int vis = p.second.num_visits;
+          ss << indent(bp, 4) << bp << " -> ";
+          ss << indentVisits(vis) << vis << " (V:  " << pct((n->getValue() + 1) * 100 / 2);
+          ss << ") (N:  " << pct(vis / (float)total * 100) << ") PV: ";
+          ss << bp << " " << getPV(n) << std::endl;
+        }
+      }
+    }
+    ss << "1.0 average depth, 1 max depth" << std::endl
+      << "0 non leaf nodes, 0.0 average children" << std::endl
+      << "~end" << std::endl;
     return ss.str();
   }
 
