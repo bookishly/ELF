@@ -82,6 +82,12 @@ class MCTSAI_T : public AI_T<typename Actor::State, typename Actor::Action> {
     return true;
   }
 
+  bool ponder(const State& s) override {
+    align_state(s);
+    ts_->ponder(s);
+    return true;
+  }
+
   bool endGame(const State&) override {
     resetTree();
     return true;

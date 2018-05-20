@@ -14,7 +14,7 @@
 
 #include "elf/base/extractor.h"
 
-enum SpecialActionType { SA_SKIP = -100, SA_PASS, SA_RESIGN, SA_CLEAR };
+enum SpecialActionType { SA_SKIP = -100, SA_PASS, SA_RESIGN, SA_CLEAR, SA_PONDER };
 
 class GoFeature {
  public:
@@ -54,6 +54,9 @@ class GoFeature {
         break;
       case SA_SKIP:
         reply.c = M_SKIP;
+        break;
+      case SA_PONDER:
+        reply.c = M_PONDER;
         break;
       case SA_PASS:
         reply.c = M_PASS;
@@ -202,6 +205,7 @@ class GoFeature {
         {"opponent_stone_plane", _opponent_stone_plane},
         {"ACTION_SKIP", SA_SKIP},
         {"ACTION_PASS", SA_PASS},
+        {"ACTION_PONDER", SA_PONDER},
         {"ACTION_RESIGN", SA_RESIGN},
         {"ACTION_CLEAR", SA_CLEAR},
     };

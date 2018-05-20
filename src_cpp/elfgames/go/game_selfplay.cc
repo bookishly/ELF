@@ -310,7 +310,14 @@ void GoGameSelfPlay::act() {
         }
         return;
       }
-
+      if (reply.c == M_PONDER) {
+        // Run a predetermined number of evaluations
+        Stone player = s.nextPlayer();
+        MCTSGoAI* curr_ai =
+            ((_ai2 != nullptr && player == S_WHITE) ? _ai2.get() : _ai.get());
+        curr_ai->ponder(s);
+        return;
+      }
       if (reply.c == M_RESIGN) {
         finish_game(FR_RESIGN);
         return;

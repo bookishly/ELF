@@ -238,6 +238,10 @@ class GoConsoleGTP:
         else:
             return False, msg
 
+    def on_time_left(self, batch, items, reply):
+        self.actions["ponder"]
+        return True, "time_left 0"
+
     def on_play(self, batch, items, reply):
         ret, msg = self.check_player(batch, items[1][0])
         if ret:
@@ -277,6 +281,7 @@ class GoConsoleGTP:
         self.board_size = GC.params["board_size"]
         self.evaluator = evaluator
         self.actions = {
+            "ponder": GC.params["ACTION_PONDER"],
             "skip": GC.params["ACTION_SKIP"],
             "pass": GC.params["ACTION_PASS"],
             "resign": GC.params["ACTION_RESIGN"],

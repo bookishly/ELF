@@ -582,6 +582,25 @@ class SearchTreeT {
     return ss.str();
   }
 
+  std::string printPlayoutsInfo(const Node* node) const {
+    std::stringstream ss;
+    const Node* top = nullptr;
+    int sum_vis = 0;
+    int max_vis = 0;
+    for (const auto& p : node->getStateActions()) {
+      sum_vis += p.second.num_visits;
+      if (p.second.num_visits > max_vis) {
+        max_vis = p.second.num_visits;
+        top = getNode(p.second.child_node);
+      }
+    }
+    if (top) {
+      ss << "Playouts: " << sum_vis << ", Win: " << pct((top->getValue() + 1) * 100 / 2);
+      ss << ", PV: " << getPV(top) << std::endl;
+    }
+    return ss.str();
+  }
+
   std::string printPonderTree(const Node* node) const {
     std::stringstream ss;
     ss << "~begin" << std::endl;

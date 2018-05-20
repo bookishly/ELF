@@ -49,6 +49,10 @@ class AI_T {
     return true;
   }
 
+  virtual bool ponder(const S&) {
+    return true;
+  }
+
   // End the game
   virtual bool endGame(const S&) {
     return true;

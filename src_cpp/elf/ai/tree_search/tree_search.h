@@ -108,7 +108,8 @@ class TreeSearchSingleThreadT {
       // Start from the root and run one path
       idx += batch_rollouts<Actor>(
           RunContext(run_id, idx, num_rollout), root, actor, search_tree);
-      std::cout << search_tree.printPonderTree(root) << std::endl;
+      std::cout << search_tree.printPlayoutsInfo(root);
+      //std::cout << search_tree.printPonderTree(root) << std::endl;
     }
 
     if (output_ != nullptr) {
@@ -399,6 +400,14 @@ class TreeSearchT {
     // result.addActions(root->getStateActions());
 
     return result;
+  }
+
+  void ponder(const State& root_state) {
+    setRootNodeState(root_state);
+    notifySearches(1000);
+    // Wait until all tree searches are done.
+    treeReady_.waitUntilCount(threadPool_.size());
+    treeReady_.reset();
   }
 
   MCTSResult run(const State& root_state) {
